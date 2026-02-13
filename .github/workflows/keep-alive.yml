@@ -1,0 +1,16 @@
+name: Keep Backend Alive
+
+on:
+  schedule:
+    - cron: '*/10 * * * *'
+  workflow_dispatch:
+
+jobs:
+  ping:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Ping backend
+        run: |
+          curl -sf --max-time 30 \
+            "https://contacts-manager-backend-74tf.onrender.com/api/v1/contacts?page=0&size=1" \
+            -o /dev/null -w "HTTP %{http_code} in %{time_total}s\n"

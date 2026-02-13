@@ -1,0 +1,100 @@
+<div class="form-container">
+  <div class="form-header">
+    <a routerLink="/" class="back-link">&larr; Back to Contacts</a>
+    <h1>{{ isEditMode() ? 'Edit Contact' : 'New Contact' }}</h1>
+  </div>
+
+  @if (error()) {
+    <div class="alert alert-error">{{ error() }}</div>
+  }
+
+  @if (loading()) {
+    <div class="loading">
+      <div class="spinner"></div>
+      <p>Loading contact...</p>
+    </div>
+  } @else {
+    <form [formGroup]="form" (ngSubmit)="onSubmit()" novalidate>
+      <fieldset class="form-section">
+        <legend>Personal Information</legend>
+        <div class="form-row">
+          <div class="form-group">
+            <label for="name">First Name *</label>
+            <input id="name" type="text" formControlName="name" placeholder="John"
+                   [class.invalid]="isFieldInvalid('name')">
+            @if (isFieldInvalid('name')) {
+              <span class="field-error">{{ getFieldError('name') }}</span>
+            }
+          </div>
+          <div class="form-group">
+            <label for="lastName">Last Name *</label>
+            <input id="lastName" type="text" formControlName="lastName" placeholder="Doe"
+                   [class.invalid]="isFieldInvalid('lastName')">
+            @if (isFieldInvalid('lastName')) {
+              <span class="field-error">{{ getFieldError('lastName') }}</span>
+            }
+          </div>
+        </div>
+        <div class="form-group">
+          <label for="birthday">Birthday</label>
+          <input id="birthday" type="date" formControlName="birthday">
+        </div>
+      </fieldset>
+
+      <fieldset class="form-section">
+        <legend>Contact Details</legend>
+        <div class="form-row">
+          <div class="form-group">
+            <label for="email">Email</label>
+            <input id="email" type="email" formControlName="email" placeholder="john.doe@example.com"
+                   [class.invalid]="isFieldInvalid('email')">
+            @if (isFieldInvalid('email')) {
+              <span class="field-error">{{ getFieldError('email') }}</span>
+            }
+          </div>
+          <div class="form-group">
+            <label for="phone">Phone</label>
+            <input id="phone" type="tel" formControlName="phone" placeholder="+1234567890"
+                   [class.invalid]="isFieldInvalid('phone')">
+            @if (isFieldInvalid('phone')) {
+              <span class="field-error">{{ getFieldError('phone') }}</span>
+            }
+          </div>
+        </div>
+      </fieldset>
+
+      <fieldset class="form-section">
+        <legend>Address</legend>
+        <div class="form-group">
+          <label for="addressLine1">Address Line 1</label>
+          <input id="addressLine1" type="text" formControlName="addressLine1" placeholder="123 Main St">
+        </div>
+        <div class="form-group">
+          <label for="addressLine2">Address Line 2</label>
+          <input id="addressLine2" type="text" formControlName="addressLine2" placeholder="Apt 4B">
+        </div>
+        <div class="form-row form-row-3">
+          <div class="form-group">
+            <label for="city">City</label>
+            <input id="city" type="text" formControlName="city" placeholder="Los Angeles">
+          </div>
+          <div class="form-group">
+            <label for="state">State</label>
+            <input id="state" type="text" formControlName="state" placeholder="California">
+          </div>
+          <div class="form-group">
+            <label for="country">Country</label>
+            <input id="country" type="text" formControlName="country" placeholder="United States">
+          </div>
+        </div>
+      </fieldset>
+
+      <div class="form-actions">
+        <a routerLink="/" class="btn btn-outline">Cancel</a>
+        <button type="submit" class="btn btn-primary" [disabled]="submitting()">
+          {{ submitting() ? 'Saving...' : (isEditMode() ? 'Update Contact' : 'Create Contact') }}
+        </button>
+      </div>
+    </form>
+  }
+</div>

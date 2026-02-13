@@ -1,0 +1,61 @@
+<div class="contact-list-container">
+  <div class="header">
+    <h1>Contacts</h1>
+    <a routerLink="/contacts/new" class="btn btn-primary">+ New Contact</a>
+  </div>
+
+  @if (error()) {
+    <div class="alert alert-error">{{ error() }}</div>
+  }
+
+  @if (loading()) {
+    <div class="loading">
+      <div class="spinner"></div>
+      <p>Loading contacts...</p>
+    </div>
+  } @else if (contacts().length === 0) {
+    <div class="empty-state">
+      <div class="empty-icon">&#128101;</div>
+      <h2>No contacts yet</h2>
+      <p>Get started by adding your first contact.</p>
+      <a routerLink="/contacts/new" class="btn btn-primary">+ Add Contact</a>
+    </div>
+  } @else {
+    <div class="contacts-grid">
+      @for (contact of contacts(); track contact.id) {
+        <div class="contact-card">
+          <a [routerLink]="['/contacts', contact.id]" class="contact-link">
+            <div class="contact-avatar">{{ getInitials(contact) }}</div>
+            <div class="contact-info">
+              <h3>{{ contact.name }} {{ contact.lastName }}</h3>
+              @if (contact.email) {
+                <p class="contact-detail">{{ contact.email }}</p>
+              }
+              @if (contact.phone) {
+                <p class="contact-detail">{{ contact.phone }}</p>
+              }
+            </div>
+          </a>
+          <div class="contact-actions">
+            <a [routerLink]="['/contacts', contact.id, 'edit']" class="btn btn-sm btn-outline" title="Edit">Edit</a>
+            <button (click)="deleteContact(contact.id!, $event)" class="btn btn-sm btn-danger" title="Delete">Delete</button>
+          </div>
+        </div>
+      }
+    </div>
+
+    @if (totalPages() > 1) {
+      <div class="pagination">
+        <button (click)="previousPage()" [disabled]="currentPage() === 0" class="btn btn-outline">
+          Previous
+        </button>
+        <span class="page-info">
+          Page {{ currentPage() + 1 }} of {{ totalPages() }} ({{ totalElements() }} contacts)
+        </span>
+        <button (click)="nextPage()" [disabled]="currentPage() >= totalPages() - 1" class="btn btn-outline">
+          Next
+        </button>
+      </div>
+    }
+  }
+</div>

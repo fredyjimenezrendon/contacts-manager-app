@@ -1,0 +1,103 @@
+<div class="detail-container">
+  <div class="detail-header">
+    <a routerLink="/" class="back-link">&larr; Back to Contacts</a>
+  </div>
+
+  @if (error()) {
+    <div class="alert alert-error">{{ error() }}</div>
+  }
+
+  @if (loading()) {
+    <div class="loading">
+      <div class="spinner"></div>
+      <p>Loading contact...</p>
+    </div>
+  } @else if (contact(); as c) {
+    <div class="contact-profile">
+      <div class="profile-top">
+        <div class="profile-avatar">{{ getInitials() }}</div>
+        <div class="profile-name">
+          <h1>{{ c.name }} {{ c.lastName }}</h1>
+          @if (c.birthday) {
+            <p class="profile-birthday">Born {{ c.birthday | date:'longDate' }}</p>
+          }
+        </div>
+        <div class="profile-actions">
+          <a [routerLink]="['/contacts', c.id, 'edit']" class="btn btn-primary">Edit</a>
+          <button (click)="deleteContact()" class="btn btn-danger">Delete</button>
+        </div>
+      </div>
+
+      <div class="info-sections">
+        @if (c.email || c.phone) {
+          <div class="info-section">
+            <h2>Contact Information</h2>
+            <div class="info-grid">
+              @if (c.email) {
+                <div class="info-item">
+                  <span class="info-label">Email</span>
+                  <span class="info-value">
+                    <a href="mailto:{{ c.email }}">{{ c.email }}</a>
+                  </span>
+                </div>
+              }
+              @if (c.phone) {
+                <div class="info-item">
+                  <span class="info-label">Phone</span>
+                  <span class="info-value">
+                    <a href="tel:{{ c.phone }}">{{ c.phone }}</a>
+                  </span>
+                </div>
+              }
+            </div>
+          </div>
+        }
+
+        @if (getFullAddress()) {
+          <div class="info-section">
+            <h2>Address</h2>
+            <div class="info-grid">
+              @if (c.addressLine1) {
+                <div class="info-item">
+                  <span class="info-label">Address</span>
+                  <span class="info-value">{{ c.addressLine1 }}</span>
+                </div>
+              }
+              @if (c.addressLine2) {
+                <div class="info-item">
+                  <span class="info-label">Address Line 2</span>
+                  <span class="info-value">{{ c.addressLine2 }}</span>
+                </div>
+              }
+              @if (c.city) {
+                <div class="info-item">
+                  <span class="info-label">City</span>
+                  <span class="info-value">{{ c.city }}</span>
+                </div>
+              }
+              @if (c.state) {
+                <div class="info-item">
+                  <span class="info-label">State</span>
+                  <span class="info-value">{{ c.state }}</span>
+                </div>
+              }
+              @if (c.country) {
+                <div class="info-item">
+                  <span class="info-label">Country</span>
+                  <span class="info-value">{{ c.country }}</span>
+                </div>
+              }
+            </div>
+          </div>
+        }
+
+        <div class="info-section info-meta">
+          <p>Created {{ c.createdAt | date:'medium' }}</p>
+          @if (c.updatedAt) {
+            <p>Last updated {{ c.updatedAt | date:'medium' }}</p>
+          }
+        </div>
+      </div>
+    </div>
+  }
+</div>
