@@ -2,6 +2,8 @@
 
 Angular application for managing contacts, built with Angular 21, server-side rendering, and deployed to Vercel.
 
+🔗 **Live:** [contacts-manager-app-six.vercel.app](https://contacts-manager-app-six.vercel.app) | 📦 **Repo:** [github.com/fredyjimenezrendon/contacts-manager-app](https://github.com/fredyjimenezrendon/contacts-manager-app)
+
 ## Features
 
 - Create, view, edit, and delete contacts
